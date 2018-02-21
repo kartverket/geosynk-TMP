@@ -67,17 +67,15 @@ namespace Kartverket.Geosynkronisering.ChangelogProviders
                     //Prepare query against the changelog table in postgres
                     Npgsql.NpgsqlCommand command = null;
                     PrepareChangeLogQuery(conn, ref command, startChangeId, endChangeId, datasetId);
-
-                    List<OptimizedChangeLogElement> optimizedChangeLog = new List<OptimizedChangeLogElement>();
                     //Execute query against the changelog table and remove unnecessary transactions.
                     
-                    FillOptimizedChangeLog(ref command, ref optimizedChangeLog, startChangeId);
+                    FillOptimizedChangeLog(ref command, ref OptimizedChangeLog, startChangeId);
 
                     conn.Close();
                 }
                 //Get features from WFS and add transactions to changelogfile
                 BuildChangeLogFile(count, wfsUrl, startChangeId, changeLogFileName, datasetId);
-               
+
             }
             catch (System.Exception exp)
             {
